@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhyloCompta — Comptabilité complète pour Madagascar, France et Maurice</title>
+<meta name="description" content="PhyloCompta : logiciel de comptabilité de bureau pour indépendants et petites structures. Facturation, trésorerie, TVA, immobilisations, stocks. Essai gratuit 15 jours.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1E2F40; --ink-soft:#2C4356;
+    --paper:#F1F0EA; --paper-raised:#FFFFFF;
+    --brass:#C9982E; --brass-soft:#F3E2AE;
+    --text:#1C2B33; --text-dim:#4C545C;
+    --text-inverse:#EDEAE0; --text-inverse-dim:#ADB8C0;
+    --rule:#DAD7CC; --rule-soft:#E6E4DA;
+    --green:#2E6B4E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter', sans-serif; background:var(--paper); color:var(--text);
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; line-height:1.5;
+  }
+  .wrap{max-width:1040px; margin:0 auto; padding:0 32px;}
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  /* ---------- Header ---------- */
+  header{padding:28px 0;}
+  .header-row{display:flex; align-items:center; justify-content:space-between;}
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand img{width:32px; height:32px;}
+  .brand span{font-family:'Fraunces', serif; font-size:20px; font-weight:600; color:var(--ink);}
+  nav a{
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px; letter-spacing:0.02em;
+    color:var(--text-dim); text-decoration:none; margin-left:28px;
+  }
+  nav a:hover{color:var(--brass);}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:64px 0 88px;}
+  .hero-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:center;}
+  .hero h1{
+    font-family:'Fraunces', serif; font-weight:500; font-size:44px; line-height:1.14;
+    color:var(--ink); max-width:15ch;
+  }
+  .hero p.lede{
+    font-size:17px; color:var(--text-dim); margin-top:20px; max-width:46ch; line-height:1.6;
+  }
+  .cta-row{display:flex; align-items:center; gap:18px; margin-top:32px; flex-wrap:wrap;}
+  .btn-download{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--ink); color:var(--text-inverse); text-decoration:none;
+    font-family:'Inter', sans-serif; font-weight:600; font-size:15px;
+    padding:14px 24px; border-radius:5px; transition:background 0.15s ease;
+  }
+  .btn-download:hover{background:var(--ink-soft);}
+  .btn-download svg{width:16px; height:16px;}
+  .cta-note{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--text-dim);}
+  .cta-note strong{color:var(--brass); font-weight:600;}
+
+  .hero-mark{display:flex; align-items:center; justify-content:center;}
+  .hero-mark img{width:100%; max-width:280px; height:auto;}
+
+  /* ---------- Bandeau pays ---------- */
+  .countries{border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:20px 0;}
+  .countries .wrap{display:flex; gap:40px; flex-wrap:wrap; align-items:baseline;}
+  .countries .label{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.08em; color:var(--text-dim); text-transform:uppercase;}
+  .countries .item{font-size:14.5px; color:var(--text);}
+  .countries .item b{font-weight:600;}
+
+  /* ---------- Modules (lignes numérotées, écho de la barre latérale) ---------- */
+  .modules{padding:80px 0;}
+  .section-head{max-width:52ch; margin-bottom:44px;}
+  .section-head h2{font-family:'Fraunces', serif; font-weight:500; font-size:28px; color:var(--ink);}
+  .section-head p{font-size:15px; color:var(--text-dim); margin-top:10px; line-height:1.6;}
+
+  .module-row{
+    display:flex; align-items:baseline; gap:22px; padding:18px 0;
+    border-top:1px solid var(--rule-soft);
+  }
+  .module-row:last-child{border-bottom:1px solid var(--rule-soft);}
+  .module-num{font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--brass); width:26px; flex-shrink:0;}
+  .module-name{font-family:'Fraunces', serif; font-size:18px; font-weight:500; color:var(--ink); width:230px; flex-shrink:0;}
+  .module-desc{font-size:14.5px; color:var(--text-dim); line-height:1.55;}
+
+  /* ---------- Téléchargement ---------- */
+  .download{background:var(--ink); color:var(--text-inverse); padding:76px 0;}
+  .download .section-head h2{color:var(--text-inverse);}
+  .download .section-head p{color:var(--text-inverse-dim);}
+  .manifest{
+    background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.12);
+    border-radius:6px; padding:32px; display:grid; grid-template-columns:1fr auto; gap:28px; align-items:center;
+  }
+  .manifest-details{font-family:'IBM Plex Mono', monospace; font-size:13px; line-height:2.1; color:var(--text-inverse-dim);}
+  .manifest-details b{color:var(--text-inverse); font-weight:600;}
+  .manifest .btn-download{background:var(--brass); color:var(--ink);}
+  .manifest .btn-download:hover{background:#DBAE45;}
+  .smartscreen-note{
+    margin-top:22px; font-size:13px; color:var(--text-inverse-dim); max-width:60ch; line-height:1.6;
+  }
+  .smartscreen-note b{color:var(--brass-soft);}
+
+  /* ---------- Essai & activation ---------- */
+  .trial{padding:76px 0;}
+  .trial-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:32px; margin-top:8px;}
+  .trial-card{border-top:2px solid var(--brass); padding-top:16px;}
+  .trial-card .step{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--brass); margin-bottom:8px;}
+  .trial-card h3{font-family:'Fraunces', serif; font-size:18px; font-weight:500; color:var(--ink); margin-bottom:8px;}
+  .trial-card p{font-size:14px; color:var(--text-dim); line-height:1.6;}
+
+  /* ---------- Contact ---------- */
+  .contact{border-top:1px solid var(--rule); padding:64px 0;}
+  .contact-grid{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:32px;}
+  .contact h2{font-family:'Fraunces', serif; font-size:26px; font-weight:500; color:var(--ink); max-width:20ch;}
+  .contact-links{display:flex; gap:36px; flex-wrap:wrap;}
+  .contact-links a{text-decoration:none;}
+  .contact-links .k{display:block; font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.06em; color:var(--text-dim); text-transform:uppercase; margin-bottom:6px;}
+  .contact-links .v{font-size:15.5px; color:var(--ink); font-weight:600;}
+  .contact-links a:hover .v{color:var(--brass);}
+
+  /* ---------- Footer ---------- */
+  footer{border-top:1px solid var(--rule); padding:28px 0; }
+  .footer-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+  .footer-row .mono{font-size:12px; color:var(--text-dim);}
+  .footer-row nav a{margin-left:0; margin-right:24px;}
+
+  @media (max-width:760px){
+    .hero-grid{grid-template-columns:1fr; gap:36px;}
+    .hero-mark{order:-1;}
+    .hero-mark img{max-width:160px;}
+    .hero h1{font-size:32px;}
+    .module-row{flex-wrap:wrap;}
+    .module-name{width:auto;}
+    .trial-grid{grid-template-columns:1fr; gap:28px;}
+    .manifest{grid-template-columns:1fr;}
+    .countries .wrap{gap:20px;}
+    nav{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-row">
+    <div class="brand">
+      <img src="icon.png" alt="PhyloCompta">
+      <span>PhyloCompta</span>
+    </div>
+    <nav>
+      <a href="#modules">Fonctionnalités</a>
+      <a href="#telechargement">Télécharger</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Toute votre comptabilité, dans un seul registre.</h1>
+      <p class="lede">PhyloCompta est un logiciel de bureau complet — facturation, trésorerie, TVA, immobilisations, stocks et bien plus — pensé pour les indépendants et petites structures de Madagascar, de France et de Maurice.</p>
+      <div class="cta-row">
+        <a class="btn-download" href="#telechargement">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+          Télécharger pour Windows
+        </a>
+        <span class="cta-note"><strong>Essai gratuit 15 jours</strong> — aucune carte bancaire requise</span>
+      </div>
+    </div>
+    <div class="hero-mark">
+      <img src="icon.png" alt="">
+    </div>
+  </div>
+</section>
+
+<div class="countries">
+  <div class="wrap">
+    <span class="label">Adapté à chaque pays</span>
+    <span class="item">🇲🇬 <b>Madagascar</b> — NIF, STAT, RCS, RCCM</span>
+    <span class="item">🇫🇷 <b>France</b> — SIREN, SIRET, TVA intracommunautaire, RGPD</span>
+    <span class="item">🇲🇺 <b>Maurice</b> — BRN, TAN, MRA</span>
+  </div>
+</div>
+
+<section class="modules" id="modules">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Un module pour chaque partie de votre gestion</h2>
+      <p>Seize modules reliés entre eux — chaque écriture, chaque facture et chaque mouvement de trésorerie alimente automatiquement le Bilan et le Compte de résultat.</p>
+    </div>
+
+    <div class="module-row">
+      <span class="module-num mono">02</span>
+      <span class="module-name">Comptabilité</span>
+      <span class="module-desc">Saisie d'écritures, grand livre, balance générale, lettrage — le cœur du système, en partie double.</span>
+    </div>
+    <div class="module-row">
+      <span class="module-num mono">05</span>
+      <span class="module-name">Trésorerie</span>
+      <span class="module-desc">Banques et caisses multiples, rapprochement bancaire, registre de chèques.</span>
+    </div>
+    <div class="module-row">
+      <span class="module-num mono">06</span>
+      <span class="module-name">Facturation</span>
+      <span class="module-desc">Devis, factures et avoirs, avec génération de PDF prêts à envoyer à vos clients.</span>
+    </div>
+    <div class="module-row">
+      <span class="module-num mono">08</span>
+      <span class="module-name">Stocks</span>
+      <span class="module-desc">Suivi des quantités et valorisation au coût moyen pondéré, article par article.</span>
+    </div>
+    <div class="module-row">
+      <span class="module-num mono">09</span>
+      <span class="module-name">Immobilisations</span>
+      <span class="module-desc">Registre des biens, amortissement linéaire au prorata temporis, cessions.</span>
+    </div>
+    <div class="module-row">
+      <span class="module-num mono">10</span>
+      <span class="module-name">Fiscalité</span>
+      <span class="module-desc">Calcul et suivi de la TVA collectée, déductible et à décaisser, par période.</span>
+    </div>
+    <div class="module-row">
+      <span class="module-num mono">11</span>
+      <span class="module-name">États financiers</span>
+      <span class="module-desc">Bilan, compte de résultat et tableau de flux de trésorerie, à jour en permanence.</span>
+    </div>
+    <div class="module-row">
+      <span class="module-num mono">13</span>
+      <span class="module-name">Contrôle &amp; Audit</span>
+      <span class="module-desc">Journal d'audit, détection des écritures déséquilibrées et des doublons potentiels.</span>
+    </div>
+  </div>
+</section>
+
+<section class="download" id="telechargement">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Télécharger PhyloCompta</h2>
+      <p>Installateur pour Windows 10 et 11 (64 bits). L'application fonctionne entièrement en local — vos données restent sur votre ordinateur.</p>
+    </div>
+    <div class="manifest">
+      <div class="manifest-details">
+        <div><b>Fichier</b> — PhyloCompta-Setup-0.1.0.exe</div>
+        <div><b>Taille</b> — environ 82 Mo</div>
+        <div><b>Plateforme</b> — Windows 10 / 11, 64 bits</div>
+        <div><b>Licence</b> — essai gratuit 15 jours, puis activation par machine</div>
+      </div>
+      <a class="btn-download" href="LIEN_DE_TELECHARGEMENT_A_REMPLACER" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+        Télécharger le .exe
+      </a>
+    </div>
+    <p class="smartscreen-note">
+      Au premier lancement, Windows peut afficher <b>« Windows a protégé votre ordinateur »</b> — c'est normal pour un installateur non signé numériquement. Cliquez sur <b>« Informations complémentaires »</b> puis <b>« Exécuter quand même »</b>.
+    </p>
+  </div>
+</section>
+
+<section class="trial">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Comment ça marche</h2>
+    </div>
+    <div class="trial-grid">
+      <div class="trial-card">
+        <div class="step mono">01</div>
+        <h3>Installez et essayez</h3>
+        <p>15 jours d'accès complet à toutes les fonctionnalités, sans engagement ni carte bancaire.</p>
+      </div>
+      <div class="trial-card">
+        <div class="step mono">02</div>
+        <h3>Demandez un code</h3>
+        <p>Votre identifiant machine s'affiche à l'écran d'activation — envoyez-le-nous par WhatsApp ou email.</p>
+      </div>
+      <div class="trial-card">
+        <div class="step mono">03</div>
+        <h3>Activez pour 14 mois</h3>
+        <p>Un code d'activation lié à votre machine débloque le logiciel — sans abonnement mensuel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <h2>Une question avant de vous lancer ?</h2>
+    <div class="contact-links">
+      <a href="https://wa.me/261320236702">
+        <span class="k">WhatsApp</span>
+        <span class="v">+261 32 02 367 02</span>
+      </a>
+      <a href="mailto:phylosirus@gmail.com">
+        <span class="k">Email</span>
+        <span class="v">phylosirus@gmail.com</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <span class="mono">© 2026 PhyloCompta</span>
+    <nav><a href="confidentialite.html" style="margin-left:0;">Politique de confidentialité</a></nav>
+  </div>
+</footer>
+
+</body>
+</html>
