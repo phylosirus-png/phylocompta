@@ -1,0 +1,3 @@
+Sitemap: https://phylosirus-png.github.io/phylocompta/sitemap.xml
+User-agent: *
+Disallow:
